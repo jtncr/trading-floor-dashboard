@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d1117">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Trading Floor">
+<meta name="robots" content="noindex">
+<title>Trading Floor · Paper Trading</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="paper-banner" role="status">📄 PAPER TRADING · SIMULATED MONEY · NOT FINANCIAL ADVICE</div>
+<header class="top">
+  <div class="brand"><img src="icons/icon-192.png" alt=""><div><h1>Trading Floor</h1><p class="sub">Momentum 60M · paper</p></div></div>
+  <div class="updated" id="updated"><span class="dot"></span><span id="updated-text">Loading…</span></div>
+</header>
+<nav class="tabs" id="tabs"><button data-v="swing" hidden>📈 Swing <small id="tab-swing"></small></button><button data-v="degen" hidden>🎲 Degen Gambles <small id="tab-degen"></small></button><button data-v="momentum" class="on">⚡ <span id="m-tabname">Momentum 60M</span> <small id="tab-momentum"></small></button></nav>
+<div id="view-swing" hidden>
+<nav class="chips" id="chips">
+  <a href="#overview">Overview</a><a href="#positions">Positions</a><a href="#watchlist">Watchlist</a><a href="#blocked">Blocked</a><a href="#history">History</a><a href="#log">Log</a>
+</nav>
+<main>
+  <section id="overview">
+    <div class="card hero">
+      <div class="label">Equity <span class="muted">(fake USD, marked to sell-now value)</span></div>
+      <div class="equity" id="equity">—</div>
+      <div class="pnl" id="pnl">—</div>
+      <div class="hero-meta" id="hero-meta"></div>
+      <div class="chart" id="chart"></div>
+      <div class="range-tabs" id="range-tabs">
+        <button data-r="6">6H</button><button data-r="24" class="on">24H</button><button data-r="168">7D</button><button data-r="0">ALL</button>
+      </div>
+    </div>
+    <div class="stats" id="stats"></div>
+  </section>
+  <section id="positions"><h2>Open positions <span class="count" id="pos-count"></span></h2><div id="pos-list"></div></section>
+  <section id="watchlist"><h2>Watchlist <span class="count" id="wl-count"></span></h2><p class="hint" id="scan-info"></p><div id="wl-list"></div></section>
+  <section id="blocked"><h2>Blocked tokens <span class="count" id="bl-count"></span></h2><p class="hint">Hard safety fails (honeypot, tax &gt; 10%, owner can mint/blacklist/pause/modify balances, hidden owner, top-10 holders &gt; 70%, Solana mint/freeze authority) or an X block flag. Never traded; any open position is exited.</p><div id="bl-list"></div><h2 style="margin-top:14px">Intel sources</h2><div id="src-list"></div></section>
+  <section id="history"><h2>Trade history <span class="count" id="tr-count"></span></h2><div id="tr-list"></div></section>
+  <section id="log"><h2>Activity log</h2><div id="ev-list" class="card events"></div></section>
+  <section id="rules"><h2>Rules</h2><div class="card rules" id="rules-box"></div></section>
+</main>
+</div>
+<div id="view-degen" class="degen" hidden>
+<nav class="chips"><a href="#d-overview">Overview</a><a href="#d-open">Open</a><a href="#d-moon">Moon bags</a><a href="#d-scan">Hot scan</a><a href="#d-history">History</a><a href="#d-rules">Rules</a></nav>
+<main>
+  <section id="d-overview">
+    <div class="card hero degen-hero">
+      <div class="label">🎲 Degen Gambles equity <span class="muted">(separate fake $5,000 wallet · max volatility, not safety)</span></div>
+      <div class="equity" id="d-equity">—</div>
+      <div class="pnl" id="d-pnl">—</div>
+      <div class="hero-meta" id="d-meta"></div>
+      <div class="chart" id="d-chart"></div>
+    </div>
+    <div class="stats" id="d-stats"></div>
+  </section>
+  <section id="d-open"><h2>Open gambles <span class="count" id="d-open-count"></span></h2><div id="d-open-list"></div></section>
+  <section id="d-moon"><h2>🌙 Moon bags <span class="count" id="d-moon-count"></span></h2><p class="hint">The 10% left after the main sell (older bags are 25% from the old 75% rule) — held indefinitely, marked to sell-now value.</p><div id="d-moon-list"></div></section>
+  <section id="d-scan"><h2>Hot scan <span class="count" id="d-scan-count"></span></h2><p class="hint" id="d-scan-info"></p><div id="d-scan-list"></div></section>
+  <section id="d-history"><h2>Main sells <span class="count" id="d-hist-count"></span></h2><div id="d-hist-list"></div></section>
+  <section id="d-rules"><h2>Rules</h2><div class="card rules" id="d-rules-box"></div></section>
+</main>
+</div>
+<div id="view-momentum" class="degen">
+<nav class="chips"><a href="#m-overview">Overview</a><a href="#m-open">Open</a><a href="#m-scan">Scan</a><a href="#m-history">History</a><a href="#m-rules">Rules</a></nav>
+<main>
+  <section id="m-overview">
+    <div class="card hero degen-hero">
+      <div class="label">⚡ <span id="m-name">Momentum 60M</span> equity <span class="muted">(separate fake $5,000 wallet · $250 buys · 100% sells · ~60 min holds)</span></div>
+      <div class="equity" id="m-equity">—</div><div class="pnl" id="m-pnl">—</div>
+      <div class="hero-meta" id="m-meta"></div><div class="chart" id="m-chart"></div>
+    </div>
+    <div class="stats" id="m-stats"></div>
+  </section>
+  <section id="m-open"><h2>Open positions <span class="count" id="m-open-count"></span></h2><div id="m-open-list"></div></section>
+  <section id="m-runners" hidden><h2>Runners <span class="count" id="m-run-count"></span></h2><div id="m-run-list"></div></section>
+  <section id="m-scan"><h2>Momentum scan <span class="count" id="m-scan-count"></span></h2><p class="hint" id="m-scan-info"></p><div id="m-scan-list"></div></section>
+  <section id="m-history"><h2>Exits <span class="count" id="m-hist-count"></span></h2><div id="m-hist-list"></div></section>
+  <section id="m-rules"><h2>Rules</h2><div class="card rules" id="m-rules-box"></div></section>
+</main>
+</div>
+<footer>Paper trading only — no wallets, keys or real funds. Data: CoinGecko, DexScreener, GoPlus, RugCheck &amp; Google News. Times in Mountain Time.</footer>
+<script src="app.js"></script>
+</body>
+</html>
